@@ -1,4 +1,1 @@
-kjnbmkl
-# Terminal-based-file-explorer.
-jhghjkl
-jhjhkjlk
+# Terminal-based-file-explorer

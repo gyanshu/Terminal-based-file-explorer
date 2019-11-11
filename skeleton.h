@@ -10,7 +10,7 @@ using namespace std;
 #ifndef INC_MODULE1_H
 #define INC_MODULE1_H
 extern struct termios initial_settings, new_settings;
-extern vector<char*> name;
+extern vector<char*> name;				//Used for storing the list of files in the current directory
 extern vector<int> len;
 extern stack<string> dirstack, fwstack;
 extern char* root;

@@ -1,7 +1,8 @@
 #include "getdir.h"
 
-bool mycomp(char *a, char *b) {
-	return strcmp(a, b) < 0;
+//comparator function for sorting file_names array
+bool mycomp(char *string1, char *string2) {
+	return strcmp(string1, string2) < 0;
 }
 
 int getdir(char const *dir) {
@@ -17,14 +18,14 @@ int getdir(char const *dir) {
 	}
 	chdir(dir);
 	getcwd(buff, sizeof(buff));
-	dirstack.push(buff);
-	name.clear();
+	backward_stack.push(buff);
+	file_names.clear();
 	while((entry = readdir(dp)) != NULL) {
 		if(strcmp(buff, root) == 0 && strcmp(entry->d_name, "..") == 0)
 			continue;
-		name.push_back(entry->d_name);
+		file_names.push_back(entry->d_name);
 	}
-	sort(name.begin(), name.end(), mycomp);
-	len.resize(name.size());
+	sort(file_names.begin(), file_names.end(), mycomp);
+	len.resize(file_names.size());
 	return 0;
 }

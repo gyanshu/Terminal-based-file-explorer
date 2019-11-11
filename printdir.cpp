@@ -6,13 +6,13 @@ void printdir() {
 	int col = screenwidth();
 	int row = screenlength();
 	int lines = 0;
-	e = -1;
+	last = -1;
 	int i, space;
-	crow = 1;
+	unsigned int crow = 1;
 	printf("\033[H\033[J");
-	for(i = b; i < (int)name.size(); i++) {
+	for(i = beg; i < (int)file_names.size(); i++) {
 		string sr;
-		int ret = lstat(name[i], &fileStat);
+		int ret = lstat(file_names[i], &fileStat);
 		if(ret == -1)
 			continue;
 		sr += (S_ISDIR(fileStat.st_mode)) ? "d" : "-";
@@ -98,10 +98,10 @@ void printdir() {
 		string qa(ar);
 		sr += qa;
 		char at[100];
-		sprintf(at, "%s", name[i]);
+		sprintf(at, "%s", file_names[i]);
 		string ql(at);
 		sr += ql;
-		if(S_ISDIR(fileStat.st_mode) && strcmp(name[i], ".") != 0 && strcmp(name[i], "..") != 0)
+		if(S_ISDIR(fileStat.st_mode) && strcmp(file_names[i], ".") != 0 && strcmp(file_names[i], "..") != 0)
 			sr += "/";
 		sr += "\n";
 		int siz = sr.size()-1;
@@ -115,10 +115,10 @@ void printdir() {
 		crow += space;
 	}
 	printf("\033[%d;1H", row);
-	cout<<((status == 0) ? "NORMAL MODE" : "COMMAND MODE: ");
-	e = i-1;
-	if(currow > crow) {
-		currow = crow;
-		ind = e;
+	cout<<((mode == 0) ? "NORMAL MODE" : "COMMAND MODE: ");
+	last = i-1;
+	if(cur_row > crow) {
+		cur_row = crow;
+		ind = last;
 	}
 }

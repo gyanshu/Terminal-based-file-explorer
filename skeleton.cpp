@@ -1,11 +1,10 @@
 #include "skeleton.h"
 
 struct termios initial_settings, new_settings;
-vector<char*> name;
+vector<char*> file_names;
 vector<int> len;
-stack<string> dirstack, fwstack;
+stack<string> backward_stack, forward_stack;
 char* root;
-int b, e;
-unsigned int crow;
-unsigned int ind, currow;
-bool status, flag;
+int beg, last;
+unsigned int ind, cur_row;
+bool mode, flag;

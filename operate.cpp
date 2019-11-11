@@ -1,92 +1,93 @@
 #include "operate.h"
 using namespace std;
 
+/*This function prints all the file entries on terminal again, also setting cursor to the first file at the top*/
 void reset() {
-	b = 0;
+	beg = 0;
 	printdir();
 	printf("\033[H");
 	ind = 0;
-	currow = 1;
+	cur_row = 1;
 }
 
 void operate() {
 	ind = 0;
-	currow = 1;
+	cur_row = 1;
 	printf("\033[H");
 	while(1) {
 		int ch;
 		ch = getinput();
 		if(ch == 'B') {
-			if((int)ind < e) {
-				currow += len[ind++];
-				printf("\033[%d;1H", currow);
+			if((int)ind < last) {
+				cur_row += len[ind++];
+				printf("\033[%d;1H", cur_row);
 			}
-			else if(e < (int)name.size()-1) {
+			else if(last < (int)file_names.size()-1) {
 				int temp = ++ind;
 				int req = len[ind];
-				int sum = 0,k = b;
+				int sum = 0,k = beg;
 				while(sum < req) {
 					sum += len[k++];
 				}
-				b = k;
+				beg = k;
 				printdir();
 				sum = 1;
-				for(int i = b; i < (int)ind; i++)
+				for(int i = beg; i < (int)ind; i++)
 					sum += len[i];
 
-				currow = sum;
+				cur_row = sum;
 				ind = temp;
-				printf("\033[%d;1H", currow);
+				printf("\033[%d;1H", cur_row);
 			}
 		}
 		else if(ch == 'A') {
-			if((int)ind > b) {
-				currow -= len[--ind];
-				printf("\033[%d;1H", currow);
+			if((int)ind > beg) {
+				cur_row -= len[--ind];
+				printf("\033[%d;1H", cur_row);
 			}
-			else if(b > 0) {
+			else if(beg > 0) {
 				ind--;
-				b--;
+				beg--;
 				printdir();
-				currow = 1;
+				cur_row = 1;
 				printf("\033[H");
 			}
 		}
 		else if(ch == 'D') {
-			if(dirstack.size() == 1)
+			if(backward_stack.size() == 1)
 				continue;
-			fwstack.push(dirstack.top());
-			dirstack.pop();
-			int ret = getdir((dirstack.top()).c_str());
+			forward_stack.push(backward_stack.top());
+			backward_stack.pop();
+			int ret = getdir((backward_stack.top()).c_str());
 			if(ret == -1)
 				continue;
 			reset();
-			dirstack.pop();
+			backward_stack.pop();
 		}
 		else if(ch == 'C') {
-			if(fwstack.empty()) {
+			if(forward_stack.empty()) {
 				continue;
 			}
-			getdir((fwstack.top()).c_str());
+			getdir((forward_stack.top()).c_str());
 			reset();
-			fwstack.pop();
+			forward_stack.pop();
 		}
 		else if(ch == 'E') {
-			int i = getdir(name[ind]);
+			int i = getdir(file_names[ind]);
 			if(i == -1) {
 				int pid = fork();
 				if(pid == 0) {
-					execl("/usr/bin/xdg-open", "xdg-open", name[ind]);
+					execl("/usr/bin/xdg-open", "xdg-open", file_names[ind]);
 					exit(0);
 				}
 				wait(NULL);
 				cls();
 				printdir();
-				printf("\033[%d;1H", currow);
+				printf("\033[%d;1H", cur_row);
 				continue;
 			}
-			while(!fwstack.empty())
-				fwstack.pop();
+			while(!forward_stack.empty())
+				forward_stack.pop();
 			reset();
 		}
 		else if(ch == 'b') {
@@ -100,10 +101,10 @@ void operate() {
 			reset();
 		}
 		else if(ch == ':') {
-			status = 1;
+			mode = 1;
 			int row = screenlength();
 			command();
-			status = 0;
+			mode = 0;
 			printf("\033[%d;1H", row);
 			printf("\033[2K");
 			cout<<"NORMAL MODE";

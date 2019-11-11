@@ -15,7 +15,7 @@ void termset() {
 int main()
 {
 	flag = 0;
-	status = 0;
+	mode = 0;
 	termset();
 	char buff[PATH_MAX];
 	getcwd(buff, sizeof(buff));
@@ -28,7 +28,7 @@ int main()
 	}
 	getdir(root);
 	cls();
-	b = 0;
+	beg = 0;
 	printdir();
 
 	printf("\033[H");

@@ -8,7 +8,7 @@ void gotopath(string &path) {
 		path = root+path;
 	}
 	getdir(path.c_str());
-	dirstack.pop();
+	backward_stack.pop();
 }
 
 void sch(char const *dir, char const *fil) {
@@ -34,7 +34,7 @@ void sch(char const *dir, char const *fil) {
 				for(i = 0; i < (int)cpp.size(); i++)
 					strng[i] = cpp[i];
 				strng[i] = '\0';
-				name.push_back(strng);
+				file_names.push_back(strng);
 			}
 			sch(entry->d_name, fil);
 		}
@@ -49,7 +49,7 @@ void sch(char const *dir, char const *fil) {
 			for(i = 0; i < (int)cpp.size(); i++)
 				strng[i] = cpp[i];
 			strng[i] = '\0';
-			name.push_back(strng);
+			file_names.push_back(strng);
 		}
 	}
 	chdir("..");
@@ -57,7 +57,7 @@ void sch(char const *dir, char const *fil) {
 }
 
 void search(string s) {
-	name.clear();
+	file_names.clear();
 	char const *c = ".";
 	sch(c, s.c_str());
 	flag = 1;
@@ -268,7 +268,7 @@ void delete_file(string s) {
 	else
 		path = ".";
 	getdir(path.c_str());
-	dirstack.pop();
+	backward_stack.pop();
 	int siz = filename.size();
 	if(it != string::npos)
 		filename = filename.substr(it+1, siz-it);
@@ -276,10 +276,10 @@ void delete_file(string s) {
 	char nbuff[PATH_MAX];
 	getcwd(nbuff, sizeof(nbuff));
 	getdir(root);
-	dirstack.pop();
+	backward_stack.pop();
 	getdir(nbuff);
 	if(strcmp(buff, nbuff) == 0)
-		dirstack.pop();
+		backward_stack.pop();
 }
 
 void snapshot(string s) {
@@ -305,7 +305,7 @@ void snapshot(string s) {
 	dirscan(snapdir.c_str(), 0, fptr);
 	fclose(fptr);
 	getdir(buff);
-	dirstack.pop();
+	backward_stack.pop();
 }
 
 void gt(string s) {
@@ -319,7 +319,7 @@ void gt(string s) {
 	char nbuff[PATH_MAX];
 	getcwd(nbuff, sizeof(nbuff));
 	if(strcmp(buff, nbuff) == 0)
-		dirstack.pop();
+		backward_stack.pop();
 
 }
 
@@ -340,16 +340,16 @@ void create(string s) {
 		mkdir(fn.c_str(), 00777);
 	else
 		return;
-	b = 0;
+	beg = 0;
 	char buff[PATH_MAX];
 	getcwd(buff, sizeof(buff));
 	getdir(root);
-	dirstack.pop();
+	backward_stack.pop();
 	getdir(buff);
 	char nbuff[PATH_MAX];
 	getcwd(nbuff, sizeof(nbuff));
 	if(strcmp(abuff, nbuff) == 0)
-		dirstack.pop();
+		backward_stack.pop();
 }
 
 void rnm(string s) {
@@ -393,7 +393,7 @@ void rnm(string s) {
 	char nbuff[PATH_MAX];
 	getcwd(nbuff, sizeof(nbuff));
 	if(strcmp(buff, nbuff) == 0)
-		dirstack.pop();
+		backward_stack.pop();
 	rename(o.c_str(), n.c_str());
 }
 

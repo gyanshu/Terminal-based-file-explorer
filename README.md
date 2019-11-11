@@ -75,9 +75,9 @@ Now go to the directory which you want to make the root and execute the executab
 `./<path_to_driver_parent>/driver`
 
 ## Technologies used
-* The code was completely written in C++ with most of libraries being of C language.
-* No system commands were used to implement command mode functions. Commands like ls, cp, mv, mkdir aren't used.
-* Also 'ncurses' library isn't used in the programs.
+* The code is completely written in C++ with most of libraries being of C language.
+* No system commands are used to implement command mode functions. Commands like ls, cp, mv, mkdir aren't used.
+* Also 'ncurses' library isn't used in the code.
 
     
     

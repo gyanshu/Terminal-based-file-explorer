@@ -1,4 +1,4 @@
-# Terminal-based-file-explorer
+# File Explorer
 ### Terminal based file explorer, with a basic feature set.
 The application would start in the Normal mode, which is the default mode and can be used to explore the current directory and navigate around in the filesystem.
 In Command Mode you can do basic file opertions like move, rename, delete, etc.

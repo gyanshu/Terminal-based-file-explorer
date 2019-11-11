@@ -7,31 +7,31 @@ started.
 The last line of the display screen shows the status bar(normal mode/command mode).
 ## Functionality
 ### Normal Mode:
-    1. The file explorer reads and displays list of files and directories in the current folder-
-        1. It shows each file(dirctories too) in the directory. The following attributes are mentioned for each file:
-            1. Ownership (User & Group) & Permissions
-            2. File size (in bytes)
-            3. Last modified
-            4. File name
-        2. The application handles scrolling (vertical overflow) in case the directory has a lot of files.
-        3. User can navigate up & down the file list using corresponding arrow keys.
-        
-    2. Open files & directories-
-        1. When 'enter' key is pressed-
-            1. Directory - It navigates into the directory and
-            show the files & directories inside it as specified in point 1.
-            2. Files - The application will open files using the
-            corresponding default application.
-            
-    3. Navigation:
-        1. Go back: On pressing left arrow key the explorer goes back to
-           the previously visited directory if any.
-        2. Go forward: On pressing right arrow key the explorer goes
-           forward to the next directory (Similar to forward/back feature of web
-           pages).
-        3. Up one level: On pressing backspace it goes one level up in the directory structure.
-        4. Home: On pressing ‘h’ key, it goes to the home folder (the folder where
-           application was started).
+1. The file explorer reads and displays list of files and directories in the current folder-
+    1. It shows each file(dirctories too) in the directory. The following attributes are mentioned for each file:
+        1. Ownership (User & Group) & Permissions
+        2. File size (in bytes)
+        3. Last modified
+        4. File name
+    2. The application handles scrolling (vertical overflow) in case the directory has a lot of files.
+    3. User can navigate up & down the file list using corresponding arrow keys.
+
+2. Open files & directories-
+    1. When 'enter' key is pressed-
+        1. Directory - It navigates into the directory and
+        show the files & directories inside it as specified in point 1.
+        2. Files - The application will open files using the
+        corresponding default application.
+
+3. Navigation:
+    1. Go back: On pressing left arrow key the explorer goes back to
+       the previously visited directory if any.
+    2. Go forward: On pressing right arrow key the explorer goes
+       forward to the next directory (Similar to forward/back feature of web
+       pages).
+    3. Up one level: On pressing backspace it goes one level up in the directory structure.
+    4. Home: On pressing ‘h’ key, it goes to the home folder (the folder where
+       application was started).
 
 ### Command Mode:
 * The application enters the command mode whenever the “:” (colon) key is pressed. Upon entering the command mode the user is able to enter different commands. All commands appear in a bottom status bar.

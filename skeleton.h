@@ -1,6 +1,7 @@
 #include <vector>
 #include <stack>
 #include <string>
+#include <stdio.h>
 #include <termios.h>
 #include <algorithm>
 #include <iostream>

@@ -1,7 +1,7 @@
 # File Explorer
 ### Terminal based file explorer, with a basic feature set.
 The application would start in the Normal mode, which is the default mode and can be used to explore the current directory and navigate around in the filesystem.
-In Command Mode you can do basic file opertions like move, rename, delete, etc.
+There is another mode called Command Mode in which you can do basic file(directories too) opertions like move, rename, delete, etc.
 The root of the application wil be the directory where the application was
 started.
 The last line of the display screen shows the status bar(normal mode/command mode).
@@ -35,7 +35,7 @@ The last line of the display screen shows the status bar(normal mode/command mod
 
 ### Command Mode:
     The application enters the command mode whenever the “:” (colon) key is pressed. Upon entering the command mode the user is able to enter different commands. All commands appear in a bottom status bar.
-
+    Note: You can enter relative and absolute paths both for a file(or directory). Note that the root directory will be the directory where you run the application, so the path '/' means that directory.
     Command list:
     1. Move: ‘move <source_file(s)> <destination_directory>’
         1. Ex: move foo.txt bar.txt ~/foobar

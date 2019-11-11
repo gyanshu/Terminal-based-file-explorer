@@ -11,8 +11,7 @@ void gotopath(string &path) {
 	dirstack.pop();
 }
 
-void sch(char const *dir, char const *fil)
-{
+void sch(char const *dir, char const *fil) {
 	DIR *dp;
 	struct dirent *entry;
 	struct stat statbuf;
@@ -117,6 +116,8 @@ void fmv(string source, string des_dir, string b) {
 	else {
 		des_dir = b+"/"+des_dir;
 	}
+	if(des_dir.back() != '/')
+		des_dir += '/';
 	des_dir += source;
 	rename(source.c_str(), des_dir.c_str());
 }
@@ -179,8 +180,7 @@ void copy(string s) {
 	return;
 }
 
-void dirscan(char const *dir, int depth, FILE *fptr)
-{
+void dirscan(char const *dir, int depth, FILE *fptr) {
 	flag = 0;
 	DIR *dp;
 	struct dirent *entry;
@@ -204,8 +204,7 @@ void dirscan(char const *dir, int depth, FILE *fptr)
 	closedir(dp);
 }
 
-void del(char const *dir)
-{
+void del(char const *dir) {
 	flag = 0;
 	DIR *dp;
 	struct dirent *entry;
@@ -255,26 +254,25 @@ void delete_file(string s) {
 	flag = 0;
 	char buff[PATH_MAX];
 	getcwd(buff, sizeof(buff));
-	string o = s.substr(s.find(' ') + 1);
+	string filename = s.substr(s.find(' ') + 1);
 	string path;
-	auto it = o.rfind('/');
-	if(o[0] == '/' || o[0] == '~') {
-		if(o[0] == '~')
-			o.erase(0, 1);
-		it = o.rfind('/');
-		path = o.substr(0, it);
+	auto it = filename.rfind('/');
+	if(filename[0] == '/' || filename[0] == '~') {
+		if(filename[0] == '~')
+			filename.erase(0, 1);
+		path = filename.substr(0, it);
 		path = root+path;
 	}
-	else if(o.find('/') != string::npos)
-		path = o.substr(0, it);
+	else if(filename.find('/') != string::npos)
+		path = filename.substr(0, it);
 	else
 		path = ".";
 	getdir(path.c_str());
 	dirstack.pop();
-	int siz = o.size();
+	int siz = filename.size();
 	if(it != string::npos)
-		o = o.substr(it+1, siz-it);
-	remove(o.c_str());
+		filename = filename.substr(it+1, siz-it);
+	remove(filename.c_str());
 	char nbuff[PATH_MAX];
 	getcwd(nbuff, sizeof(nbuff));
 	getdir(root);
@@ -282,7 +280,6 @@ void delete_file(string s) {
 	getdir(nbuff);
 	if(strcmp(buff, nbuff) == 0)
 		dirstack.pop();
-	printdir();
 }
 
 void snapshot(string s) {
@@ -311,8 +308,6 @@ void snapshot(string s) {
 	dirstack.pop();
 }
 
-
-
 void gt(string s) {
 	flag = 0;
 	string path;
@@ -326,7 +321,6 @@ void gt(string s) {
 	if(strcmp(buff, nbuff) == 0)
 		dirstack.pop();
 
-	printdir();
 }
 
 void create(string s) {
@@ -356,7 +350,6 @@ void create(string s) {
 	getcwd(nbuff, sizeof(nbuff));
 	if(strcmp(abuff, nbuff) == 0)
 		dirstack.pop();
-	printdir();
 }
 
 void rnm(string s) {
@@ -402,7 +395,6 @@ void rnm(string s) {
 	if(strcmp(buff, nbuff) == 0)
 		dirstack.pop();
 	rename(o.c_str(), n.c_str());
-	printdir();
 }
 
 void command() {
@@ -444,6 +436,10 @@ void command() {
 		else if(s.substr(0, 4) == "copy")
 			copy(s);
 		
+		char buff[PATH_MAX];
+		getcwd(buff, sizeof(buff));
+		getdir(buff);
+		printdir();
 		printf("\033[2K");
 	}
 }

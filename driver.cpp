@@ -29,7 +29,6 @@ int main()
 	getdir(root);
 	cls();
 	b = 0;
-	len.resize(name.size());
 	printdir();
 
 	printf("\033[H");

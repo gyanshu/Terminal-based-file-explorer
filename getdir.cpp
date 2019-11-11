@@ -1,5 +1,9 @@
 #include "getdir.h"
 
+bool mycomp(char *a, char *b) {
+	return strcmp(a, b) < 0;
+}
+
 int getdir(char const *dir) {
 	DIR *dp;
 	struct dirent *entry;
@@ -20,6 +24,7 @@ int getdir(char const *dir) {
 			continue;
 		name.push_back(entry->d_name);
 	}
+	sort(name.begin(), name.end(), mycomp);
 	len.resize(name.size());
 	return 0;
 }

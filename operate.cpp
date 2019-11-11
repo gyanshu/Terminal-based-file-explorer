@@ -103,14 +103,6 @@ void operate() {
 			status = 1;
 			int row = screenlength();
 			command();
-			if(flag == 1) {
-				cls();
-				for(int i = 0; i < (int)name.size(); i++)
-					cout<<name[i]<<"\n";
-				b = 0;
-				printf("\033[H");
-			}
-			flag = 0;
 			status = 0;
 			printf("\033[%d;1H", row);
 			printf("\033[2K");

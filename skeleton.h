@@ -2,6 +2,8 @@
 #include <stack>
 #include <string>
 #include <termios.h>
+#include <algorithm>
+#include <iostream>
 using namespace std;
 
 #ifndef INC_MODULE1_H

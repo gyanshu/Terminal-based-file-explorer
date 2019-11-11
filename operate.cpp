@@ -31,7 +31,7 @@ void operate() {
 				b = k;
 				printdir();
 				sum = 1;
-				for(int i = b; i < ind; i++)
+				for(int i = b; i < (int)ind; i++)
 					sum += len[i];
 
 				currow = sum;
@@ -105,10 +105,10 @@ void operate() {
 			command();
 			if(flag == 1) {
 				cls();
-				for(int i = 0; i < name.size(); i++)
+				for(int i = 0; i < (int)name.size(); i++)
 					cout<<name[i]<<"\n";
 				b = 0;
-				printf("\033[H", row);
+				printf("\033[H");
 			}
 			flag = 0;
 			status = 0;

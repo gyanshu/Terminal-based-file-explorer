@@ -32,7 +32,7 @@ void sch(char const *dir, char const *fil)
 				cpp = cpp + "/" + addend;
 				char strng[100];
 				int i;
-				for(i = 0; i < cpp.size(); i++)
+				for(i = 0; i < (int)cpp.size(); i++)
 					strng[i] = cpp[i];
 				strng[i] = '\0';
 				name.push_back(strng);
@@ -47,7 +47,7 @@ void sch(char const *dir, char const *fil)
 			cpp = cpp + "/" + addend;
 			char strng[100];
 			int i;
-			for(i = 0; i < cpp.size(); i++)
+			for(i = 0; i < (int)cpp.size(); i++)
 				strng[i] = cpp[i];
 			strng[i] = '\0';
 			name.push_back(strng);
@@ -133,7 +133,7 @@ void mov(string source, string des_dir) {
 		source = root+source;
 	}
 	auto it = source.rfind('/');
-	if(it == source.size()-1)
+	if((int)it == (int)source.size()-1)
 		fmv(source, des_dir, b);
 	else if(it == string::npos) {
 		lstat(source.c_str(), &statbuf);
@@ -163,7 +163,7 @@ void move(string s) {
 	source = s.substr(s.find(' ')+1, s.rfind(' ')-s.find(' '));
 	string t;
 	int i = 0;
-	while(i < source.size()) {
+	while(i < (int)source.size()) {
 		if(source[i] != ' ') {
 			t += source[i];
 		}

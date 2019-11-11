@@ -10,7 +10,7 @@ void printdir() {
 	int i, space;
 	crow = 1;
 	printf("\033[H\033[J");
-	for(i = b; i < name.size(); i++) {
+	for(i = b; i < (int)name.size(); i++) {
 		string sr;
 		int ret = lstat(name[i], &fileStat);
 		if(ret == -1)

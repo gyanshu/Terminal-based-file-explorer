@@ -1,5 +1,3 @@
-crusher@crusher-HP-Pavilion-15-Notebook-PC:~/Terminal-based-file-explorer$ git config credential.helper store
-crusher@crusher-HP-Pavilion-15-Notebook-PC:~/Terminal-based-file-explorer$ 
 # Terminal-based-file-explorer
 This File explorer works in two modes. The application would start in
 normal mode, which is the default mode and can be used to explore the current directory

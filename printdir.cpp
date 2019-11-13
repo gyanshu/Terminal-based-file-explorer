@@ -1,13 +1,14 @@
 #include "printdir.h"
 using namespace std;
+
 void printdir() {
 	struct tm *foo;
 	struct stat fileStat;
 	int col = screenwidth();
 	int row = screenlength();
-	int lines = 0;
+	int lines = 0;												//number of rows taken by file entries while printing
 	last = -1;
-	int i, space;
+	int i;
 	unsigned int crow = 1;
 	printf("\033[H\033[J");
 	for(i = beg; i < (int)file_names.size(); i++) {
@@ -105,7 +106,7 @@ void printdir() {
 			sr += "/";
 		sr += "\n";
 		int siz = sr.size()-1;
-		space = (int)ceil(siz/(float)col);
+		int space = (int)ceil(siz/(float)col);					//calculating number of rows taken by the current file entry
 		len[i] = space;
 		lines += space;
 		if(lines < row)

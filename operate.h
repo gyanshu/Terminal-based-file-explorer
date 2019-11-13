@@ -1,4 +1,3 @@
-#define cls() printf("\033[H\033[J")
 #include "getdir.h"
 #include "printdir.h"
 #include <stdio.h>

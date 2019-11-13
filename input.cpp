@@ -1,20 +1,28 @@
 #include "input.h"
-char getinput() {
+char getinput(char c) {
 	char ch;
-	ch = getchar();
-	if(ch == 0x001b) {
+	if(c == -1)
+		ch = getchar();
+	else
+		ch = c;
+	
+	if(ch == 27) {
 		ch = getchar();
 		if(ch == '[') {
 			ch = getchar();
 			if(ch == 'B')
 				return 'B';
-			if(ch == 'A')
+			else if(ch == 'A')
 				return 'A';
-			if(ch == 'C')
+			else if(ch == 'C')
 				return 'C';
-			if(ch == 'D')
+			else if(ch == 'D')
 				return 'D';
-		}	
+			else
+				return getinput(ch);
+		}
+		else
+			return getinput(ch);
 	}
 	else if(ch == '\n' || ch == '\r')
 		return 'E';

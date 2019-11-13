@@ -1,7 +1,6 @@
 #include "command.h"
 
 void gotopath(string &path) {
-	flag = 0;
 	if(path[0] == '/' || path[0] == '~') {
 		if(path[0] == '~')
 			path.erase(0, 1);
@@ -60,11 +59,9 @@ void search(string s) {
 	file_names.clear();
 	char const *c = ".";
 	sch(c, s.c_str());
-	flag = 1;
 }
 
 void rec_mv(char const *dir, string des_dir) {
-	flag = 0;
 	string temproary(dir);
 	string des;
 	if(des_dir.back() != '/')
@@ -93,7 +90,6 @@ void rec_mv(char const *dir, string des_dir) {
 }
 
 void dmv(string source, string des_dir, string b) {
-	flag = 0;
 	if(des_dir[0] == '/' || des_dir[0] == '~') {
 		if(des_dir[0] == '~')
 			des_dir.erase(0, 1);
@@ -107,7 +103,6 @@ void dmv(string source, string des_dir, string b) {
 }
 
 void fmv(string source, string des_dir, string b) {
-	flag = 0;
 	if(des_dir[0] == '/' || des_dir[0] == '~') {
 		if(des_dir[0] == '~')
 			des_dir.erase(0, 1);
@@ -123,7 +118,6 @@ void fmv(string source, string des_dir, string b) {
 }
 
 void mov(string source, string des_dir) {
-	flag = 0;
 	char buff[PATH_MAX];
 	getcwd(buff, sizeof(buff));
 	string b(buff);
@@ -157,7 +151,6 @@ void mov(string source, string des_dir) {
 }
 
 void move(string s) {
-	flag = 0;
 	string des_dir;
 	des_dir = s.substr(s.rfind(' ')+1);
 	string source;
@@ -181,7 +174,6 @@ void copy(string s) {
 }
 
 void dirscan(char const *dir, int depth, FILE *fptr) {
-	flag = 0;
 	DIR *dp;
 	struct dirent *entry;
 	struct stat statbuf;
@@ -205,7 +197,6 @@ void dirscan(char const *dir, int depth, FILE *fptr) {
 }
 
 void del(char const *dir) {
-	flag = 0;
 	DIR *dp;
 	struct dirent *entry;
 	struct stat statbuf;
@@ -229,7 +220,6 @@ void del(char const *dir) {
 }
 
 void delete_dir(string s) {
-	flag = 0;
 	char nbuff[PATH_MAX];
 	getcwd(nbuff, sizeof(nbuff));
 	string path = s.substr(s.find(' ')+1);
@@ -251,7 +241,6 @@ void delete_dir(string s) {
 }
 
 void delete_file(string s) {
-	flag = 0;
 	char buff[PATH_MAX];
 	getcwd(buff, sizeof(buff));
 	string filename = s.substr(s.find(' ') + 1);
@@ -283,7 +272,6 @@ void delete_file(string s) {
 }
 
 void snapshot(string s) {
-	flag = 0;
 	string snapdir, fl;
 	string temp = s.substr(s.find(' ') + 1);
 	snapdir = temp.substr(0,temp.find(' '));
@@ -309,7 +297,6 @@ void snapshot(string s) {
 }
 
 void gt(string s) {
-	flag = 0;
 	string path;
 	path = s.substr(s.find(' ')+1);
 	char buff[PATH_MAX];
@@ -324,7 +311,6 @@ void gt(string s) {
 }
 
 void create(string s) {
-	flag = 0;
 	if(s.size() < 13)
 		return;
 	string fn, path, temp;
@@ -353,7 +339,6 @@ void create(string s) {
 }
 
 void rnm(string s) {
-	flag = 0;
 	char buff[PATH_MAX];
 	getcwd(buff, sizeof(buff));
 	if(s.size() < 10)

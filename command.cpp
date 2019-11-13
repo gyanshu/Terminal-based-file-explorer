@@ -10,6 +10,22 @@ void gotopath(string &path) {
 	backward_stack.pop();
 }
 
+void getpath(string &filename) {
+	char buff[PATH_MAX];
+	getcwd(buff, sizeof(buff));
+	string curr_dir(buff);
+	if(filename[0] == '/' || filename[0] == '~') {
+		if(filename[0] == '~')
+			filename.erase(0, 1);
+		filename = root+filename;
+	}
+	else {
+		filename = curr_dir+"/"+filename;
+	}
+	if(filename.back() == '/')
+		filename.pop_back();
+}
+
 void sch(char const *dir, char const *fil) {
 	DIR *dp;
 	struct dirent *entry;
@@ -61,93 +77,47 @@ void search(string s) {
 	sch(c, s.c_str());
 }
 
-void rec_mv(char const *dir, string des_dir) {
-	string temproary(dir);
-	string des;
-	if(des_dir.back() != '/')
-		des = des_dir + '/' + temproary;
-	else
-		des = des_dir + temproary;
-	mkdir(des.c_str(), 00777);
-	DIR *dp;
+void dmv(string source, string des_dir) {
+	string dirname = source.substr(source.rfind("/") + 1);
+	des_dir += "/" + dirname;
+	mkdir(des_dir.c_str(), 00777);
+	
+	DIR *dp;																		//going inside directory
 	struct dirent *entry;
 	struct stat statbuf;
-	if((dp = opendir(dir)) == NULL)
+	if((dp = opendir(des_dir.c_str())) == NULL)
 		return;
-	chdir(dir);
+	chdir(des_dir.c_str());
 	while((entry = readdir(dp)) != NULL) {
 		lstat(entry->d_name,&statbuf);
 		if(S_ISDIR(statbuf.st_mode)) {
 			if(strcmp(".",entry->d_name) == 0 || strcmp("..",entry->d_name) == 0)
 				continue;
-			rec_mv(entry->d_name, des);
+			dmv(entry->d_name, des_dir);
 		}
 		else
-			rename(entry->d_name, (des+entry->d_name).c_str());
+			rename(entry->d_name, (des_dir+entry->d_name).c_str());
 	}
 	chdir("..");
 	closedir(dp);
 }
 
-void dmv(string source, string des_dir, string b) {
-	if(des_dir[0] == '/' || des_dir[0] == '~') {
-		if(des_dir[0] == '~')
-			des_dir.erase(0, 1);
-		des_dir = root+des_dir;
-	}
-	else {
-		des_dir = b+"/"+des_dir;
-	}
-	des_dir += source;
-	rec_mv(source.c_str(), des_dir);
-}
-
-void fmv(string source, string des_dir, string b) {
-	if(des_dir[0] == '/' || des_dir[0] == '~') {
-		if(des_dir[0] == '~')
-			des_dir.erase(0, 1);
-		des_dir = root+des_dir;
-	}
-	else {
-		des_dir = b+"/"+des_dir;
-	}
-	if(des_dir.back() != '/')
-		des_dir += '/';
-	des_dir += source;
+void fmv(string source, string des_dir) {
+	string filename = source.substr(source.rfind("/") + 1);
+	des_dir += "/" + filename;
 	rename(source.c_str(), des_dir.c_str());
 }
 
 void mov(string source, string des_dir) {
-	char buff[PATH_MAX];
-	getcwd(buff, sizeof(buff));
-	string b(buff);
+	getpath(source);
+	getpath(des_dir);
+
 	struct stat statbuf;
-	if(source[0] == '/' || source[0] == '~') {
-		if(source[0] == '~')
-			source.erase(0, 1);
-		source = root+source;
-	}
-	auto it = source.rfind('/');
-	if((int)it == (int)source.size()-1)
-		fmv(source, des_dir, b);
-	else if(it == string::npos) {
-		lstat(source.c_str(), &statbuf);
-		if(S_ISDIR(statbuf.st_mode))
-			dmv(source, des_dir, b);
-		else
-			fmv(source, des_dir, b);
-	}
-	else {
-		string sub = source.substr(it+1);
-		string p = source.substr(0, it);
-		chdir(p.c_str());
-		lstat(sub.c_str(), &statbuf);
-		if(S_ISDIR(statbuf.st_mode))
-			dmv(sub, des_dir, b);
-		else
-			fmv(sub, des_dir, b);
-		chdir(buff);
-	}
+	lstat(source.c_str(), &statbuf);
+	if(S_ISDIR(statbuf.st_mode))
+		dmv(source, des_dir);	
+	else
+		fmv(source, des_dir);
 }
 
 void move(string s) {
@@ -171,29 +141,6 @@ void move(string s) {
 
 void copy(string s) {
 	return;
-}
-
-void dirscan(char const *dir, int depth, FILE *fptr) {
-	DIR *dp;
-	struct dirent *entry;
-	struct stat statbuf;
-	if((dp = opendir(dir)) == NULL)
-		return;
-
-	chdir(dir);
-	while((entry = readdir(dp)) != NULL) {
-		lstat(entry->d_name,&statbuf);
-		if(S_ISDIR(statbuf.st_mode)) {
-			if(strcmp(".",entry->d_name) == 0 || strcmp("..",entry->d_name) == 0)
-				continue;
-			fprintf(fptr, "%*s%s/\n",depth," ",entry->d_name);
-			dirscan(entry->d_name,depth+4, fptr);
-		}
-		else
-			fprintf(fptr, "%*s%s\n",depth," ",entry->d_name);
-	}
-	chdir("..");
-	closedir(dp);
 }
 
 void del(char const *dir) {
@@ -271,16 +218,36 @@ void delete_file(string s) {
 		backward_stack.pop();
 }
 
+void dirscan(char const *dir, int depth, FILE *fptr) {
+	string direc(dir);
+	getpath(direc);
+	dir = direc.c_str();
+	DIR *dp;
+	struct dirent *entry;
+	struct stat statbuf;
+	if((dp = opendir(dir)) == NULL)
+		return;
+
+	while((entry = readdir(dp)) != NULL) {
+		lstat(entry->d_name,&statbuf);
+		if(S_ISDIR(statbuf.st_mode)) {
+			if(strcmp(".",entry->d_name) == 0 || strcmp("..",entry->d_name) == 0)
+				continue;
+			fprintf(fptr, "%*s%s/\n",depth," ",entry->d_name);
+			dirscan(entry->d_name,depth+4, fptr);
+		}
+		else
+			fprintf(fptr, "%*s%s\n",depth," ",entry->d_name);
+	}
+	closedir(dp);
+}
+
 void snapshot(string s) {
 	string snapdir, fl;
 	string temp = s.substr(s.find(' ') + 1);
 	snapdir = temp.substr(0,temp.find(' '));
 	fl = temp.substr(temp.find(' ')+1);
-	if(fl[0] == '/' || fl[0] == '~') {
-		if(fl[0] == '~')
-			fl.erase(0, 1);
-		fl = root+fl;
-	}
+	getpath(fl);
 	FILE *fptr;
     fptr = fopen(fl.c_str(), "w");
     if(snapdir[0] == '/' || snapdir[0] == '~') {
@@ -292,8 +259,6 @@ void snapshot(string s) {
 	getcwd(buff, sizeof(buff));
 	dirscan(snapdir.c_str(), 0, fptr);
 	fclose(fptr);
-	getdir(buff);
-	backward_stack.pop();
 }
 
 void gt(string s) {

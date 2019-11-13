@@ -7,4 +7,4 @@ stack<string> backward_stack, forward_stack;
 char* root;
 int beg, last;
 unsigned int ind, cur_row;
-bool mode, flag;
+bool mode;

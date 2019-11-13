@@ -79,6 +79,6 @@ Now go to the directory which you want to make the root and execute the executab
 * No system commands are used to implement command mode functions. Commands like ls, cp, mv, mkdir aren't used.
 * Also 'ncurses' library isn't used in the code.
 
-    
-    
- 
+## Understanding the Code
+* To understand the code start from the file skeleton.h which has all the global data structres used.
+* Then go to driver.cpp which has the main function. From there on follow the control flow.

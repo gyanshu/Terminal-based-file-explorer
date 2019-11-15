@@ -77,7 +77,6 @@ Now go to the directory which you want to make the root and execute the executab
 ## Technologies used
 * The code is completely written in C++ with most of libraries being of C language.
 * No OS commands are used to implement command mode functions. Commands like ls, cp, mv, mkdir aren't used.
-* Rather system calls are used.
 * Also 'ncurses' library isn't used in the code.
 
 ## Understanding the Code

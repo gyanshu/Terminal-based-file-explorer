@@ -140,7 +140,48 @@ void move(string s) {
 }
 
 void copy(string s) {
-	return;
+	DIR *dp;
+	struct dirent *entry;
+	struct stat statbuf;
+	if((dp = opendir(dir)) == NULL)
+		return;
+	chdir(dir);
+	while((entry = readdir(dp)) != NULL) {
+		lstat(entry->d_name,&statbuf);
+		if(S_ISDIR(statbuf.st_mode)) {
+			if(strcmp(".",entry->d_name) == 0 || strcmp("..",entry->d_name) == 0)
+				continue;
+			if(strcmp(entry->d_name, fil) == 0) {
+				char buff[PATH_MAX];
+				getcwd(buff, sizeof(buff));
+				string cpp(buff);
+				string addend(fil);
+				cpp = cpp + "/" + addend;
+				char strng[100];
+				int i;
+				for(i = 0; i < (int)cpp.size(); i++)
+					strng[i] = cpp[i];
+				strng[i] = '\0';
+				file_names.push_back(strng);
+			}
+			sch(entry->d_name, fil);
+		}
+		else if(strcmp(entry->d_name, fil) == 0) {
+			char buff[PATH_MAX];
+			getcwd(buff, sizeof(buff));
+			string cpp(buff);
+			string addend(fil);
+			cpp = cpp + "/" + addend;
+			char strng[100];
+			int i;
+			for(i = 0; i < (int)cpp.size(); i++)
+				strng[i] = cpp[i];
+			strng[i] = '\0';
+			file_names.push_back(strng);
+		}
+	}
+	chdir("..");
+	closedir(dp);
 }
 
 void del(char const *dir) {

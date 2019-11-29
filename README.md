@@ -40,30 +40,38 @@ The last line of the display screen shows the status bar(normal mode/command mod
         Command list:
         1. Move: ‘move <source_file(s)> <destination_directory>’
             1. Ex: move foo.txt bar.txt ~/foobar
-            2. You can also move directories.
-
-        2. Rename: ‘rename <old_filename> <new_filename>’
+            2. You can also move directories
+        
+        2. Copy: ‘copy <source_file(s)> <destination_directory>’
+            1. Ex: copy foo.txt bar.txt foobar
+            2. You can also copy directories
+        
+        3. Search: ‘search <filename>’
+            1. Search for the given filename under the current directory recursively
+            2. Output is the absolute paths which is shown in the normal mode
+            
+        4. Rename: ‘rename <old_filename> <new_filename>’
             Ex: rename foo.txt bar.txt
 
-        3. Create file: ‘create_file <file_name> <destination_path>’
+        5. Create file: ‘create_file <file_name> <destination_path>’
            Create directory ‘create_dir <dir_name> <destination_path>’
             Ex: create_file foo.txt ~/foobar
             Ex: create_file foo.txt .
             Ex: create_dir folder_name ~/foobar
 
-        4. Delete file: ‘delete_file <file_path>’
+        6. Delete file: ‘delete_file <file_path>’
            Delete directory: ‘delete_dir <directory_path>’
             Ex: delete_file superbad.mp4
             Ex: delete_directory ~/Downloads/Project
 
-        5. Goto: 'goto <location>'
+        7. Goto: 'goto <location>'
             Ex: goto ~/Documents
 
-        6. Snapshotting the filesystem and dumping into a file: ‘snapshot <folder> <dumpfile>’
+        8. Snapshotting the filesystem and dumping into a file: ‘snapshot <folder> <dumpfile>’
             Given a base directory this command recursively crawls the
             directory and stores the output in the dumpfile.
 
-        7. On pressing ‘ESC’ key the application goes back to Normal Mode.
+        9. On pressing ‘ESC’ key the application goes back to Normal Mode.
 
 ## Installation instructions(Tested on Ubuntu)
 ```bash

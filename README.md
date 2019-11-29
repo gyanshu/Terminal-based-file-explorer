@@ -54,7 +54,7 @@ The last line of the display screen shows the status bar(normal mode/command mod
             Ex: rename foo.txt bar.txt
 
         5. Create file: ‘create_file <file_name> <destination_path>’
-           Create directory ‘create_dir <dir_name> <destination_path>’
+           Create directory: ‘create_dir <dir_name> <destination_path>’
             Ex: create_file foo.txt ~/foobar
             Ex: create_file foo.txt .
             Ex: create_dir folder_name ~/foobar
